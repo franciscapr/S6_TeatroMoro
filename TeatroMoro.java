@@ -1,12 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author franc
- */
 import java.util.Scanner;
 
 public class TeatroMoro {
@@ -27,7 +18,7 @@ public class TeatroMoro {
             System.out.println("1. Reservar asiento");
             System.out.println("2. Modificar reserva");
             System.out.println("3. Comprar entrada");
-            System.out.println("4. Imprimir boleta");
+            System.out.println("4. Imprimir boleta (resumen)");
             System.out.println("0. Salir");
             System.out.print("Elija una opción: ");
             opcion = sc.nextInt();
@@ -36,7 +27,7 @@ public class TeatroMoro {
                 case 1 -> reservar();
                 case 2 -> modificar();
                 case 3 -> comprar();
-                case 4 -> boleta();
+                case 4 -> boleta(); // ahora existe esta versión
                 case 0 -> System.out.println("Saliendo...");
                 default -> System.out.println("Opción inválida");
             }
@@ -75,27 +66,49 @@ public class TeatroMoro {
         }
     }
 
-    // Comprar entrada
+    // Compra de entradas
     public void comprar() {
         System.out.print("Ingrese asiento a comprar: ");
         int num = sc.nextInt();
+
         if (asientos[num - 1] == 0 || asientos[num - 1] == 1) {
             if (asientos[num - 1] == 1) reservados--;
             asientos[num - 1] = 2;
             vendidos++;
             System.out.println("Compra realizada con éxito.");
+
+            // Boleta individual
+            boleta(num, 1); 
         } else {
             System.out.println("Ese asiento ya fue vendido.");
         }
     }
 
-    // Imprimir boleta
+    // Boleta general que contiene el resumen de todo
     public void boleta() {
-        System.out.println("=== BOLETA ===");
+        int precio = 4000;
+        int total = vendidos * precio;
+
+        System.out.println("\n=== BOLETA GENERAL ===");
         System.out.println("Teatro: Teatro Moro");
         System.out.println("Entradas vendidas: " + vendidos);
+        System.out.println("Precio unitario: $" + precio);
+        System.out.println("Total acumulado: $" + total);
+        System.out.println("======================\n");
+    }
+
+    // Boleta con detalle
+    public void boleta(int asiento, int cantidad) {
         int precio = 4000;
-        System.out.println("Total: $" + (vendidos * precio));
+        int total = cantidad * precio;
+
+        System.out.println("\n=== BOLETA COMPRA ===");
+        System.out.println("Teatro: Teatro Moro");
+        System.out.println("Asiento: " + asiento);
+        System.out.println("Cantidad: " + cantidad);
+        System.out.println("Precio unitario: $" + precio);
+        System.out.println("Total a pagar: $" + total);
+        System.out.println("=====================\n");
     }
 
     public static void main(String[] args) {
